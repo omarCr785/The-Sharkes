@@ -640,7 +640,8 @@ async function apiCall(action, payload = {}) {
 
     if (action === 'getData') {
       const res  = await fetch(sbUrl('members?select=*&order=created_at.asc'), { headers: sbHeaders() });
-      const rows = await res.json();
+      const json = await res.json();
+      const rows = Array.isArray(json) ? json : [];
       // group by team
       const data = {};
       CONFIG.TEAMS.forEach(t => data[t] = []);
